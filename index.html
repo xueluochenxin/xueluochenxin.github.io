@@ -3,46 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
+    <title>雪洛尘心 - 个人主页</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    
     <style>
+        /* ================= 全局设定与草稿纸背景 ================= */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            color: #3a4a5a; /* 主色调：深灰蓝 */
+            background-color: #f5f5f5; /* 浅色基调 */
+            /* 纯 CSS 实现的微弱粗糙纸张噪点纹理 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            overflow-x: hidden;
+        }
+
+        /* ================= 简笔画雪花动画 ================= */
+        .snow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; /* 确保不影响鼠标点击 */
+            z-index: 9999;
+        }
+        .snowflake {
+            position: absolute;
+            color: #8fa0b0; /* 灰蓝色简笔画雪花 */
+            font-family: 'Zhi Mang Xing', cursive; /* 借用毛笔字的随意感模拟涂鸦 */
+            font-size: 1.2rem;
+            animation: fall linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(100vh) translateX(20px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ================= 顶部对联 (古典门楹) ================= */
+        .couplets-wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 2rem;
+            color: #2c3e50;
+            letter-spacing: 2px;
+        }
+
+        /* ================= 蜡笔涂鸦边框通用类 ================= */
+        .doodle-border {
+            border: 2px solid #6b7c8f;
+            /* 利用不对称的圆角模拟手绘的随性线条 */
+            border-radius: 2% 95% 3% 90% / 95% 4% 92% 5%;
+            background-color: transparent;
+        }
+
+        /* ================= 核心容器与布局 ================= */
+        .container {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-            color: #333;
+            padding: 20px;
         }
-        h1 { color: #24292e; }
-        .intro { background: #f6f8fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-        .links a {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 10px;
-            padding: 8px 16px;
-            background-color: #24292e;
-            color: white;
+
+        /* 顶部横幅 (图一) */
+        .banner-section {
+            width: 100%;
+            margin-bottom: 40px;
+            overflow: hidden;
+            padding: 4px; /* 为涂鸦边框留出空间 */
+        }
+        .banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            max-height: 400px; /* 限制最高高度 */
+        }
+
+        /* 左右分栏布局 */
+        .main-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* 左侧：头像与简介 */
+        .left-column {
+            flex: 0 0 300px; /* 固定左侧宽度 */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .avatar {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            /* 极其柔和的照片贴纸感阴影与极细实线 */
+            border: 1px solid #d0d5d9;
+            box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+            background-color: #fff;
+            padding: 5px; /* 拍立得相框边缘效果 */
+        }
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #4a5a6a;
+        }
+
+        /* 右侧：社交链接与预留模块 */
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* 社交图标排版 */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .social-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
             text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s;
+            color: #5a6b7a;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
-        .links a:hover { background-color: #0366d6; }
+        /* 鼠标悬停：浅蓝色发光与边框变色 */
+        .social-item:hover {
+            border-color: #7ab8e6;
+            color: #7ab8e6;
+            box-shadow: 0 0 12px 2px rgba(122, 184, 230, 0.5), inset 0 0 6px rgba(122, 184, 230, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* 预留展示区 (正在制作中) */
+        .placeholder-block {
+            padding: 30px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #8fa0b0;
+            position: relative;
+        }
+        .placeholder-block h3 {
+            font-family: 'Zhi Mang Xing', cursive; /* 标题也带点狂草味 */
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            color: #6b7c8f;
+        }
+
+        /* ================= 移动端响应式折叠 ================= */
+        @media (max-width: 768px) {
+            .couplets-wrapper {
+                font-size: 1.5rem;
+                padding: 10px 15px;
+            }
+            .main-content {
+                flex-direction: column; /* 变为上下堆叠 */
+            }
+            .left-column {
+                flex: 1;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>你好，我是 [你的名字] 👋</h1>
-    
-    <div class="intro">
-        <p>我是一名计算机科学专业的本科生。我专注于底层系统开发、C++ 以及计算机体系结构。平时喜欢通过 LeetCode 钻研数据结构与算法，同时也利用 C++ 进行过游戏开发项目。</p>
-        <p>除了敲代码，我也对角色设计充满热情，闲暇之余喜欢分析音乐和电影的叙事逻辑。目前正在向着高性能后端开发的实习目标持续努力！</p>
+
+    <div class="snow-container" aria-hidden="true">
+        <div class="snowflake" style="left: 10%; animation-duration: 18s; animation-delay: 0s;">*</div>
+        <div class="snowflake" style="left: 30%; animation-duration: 22s; animation-delay: 4s;">*</div>
+        <div class="snowflake" style="left: 50%; animation-duration: 16s; animation-delay: 2s;">*</div>
+        <div class="snowflake" style="left: 70%; animation-duration: 25s; animation-delay: 7s;">*</div>
+        <div class="snowflake" style="left: 90%; animation-duration: 19s; animation-delay: 1s;">*</div>
     </div>
 
-    <h2>在其他平台找到我</h2>
-    <div class="links">
-        <a href="#" target="_blank">Bilibili</a>
-        <a href="#" target="_blank">知乎 (Zhihu)</a>
-        <a href="#" target="_blank">TikTok</a>
-        <a href="https://github.com/你的用户名" target="_blank">GitHub</a>
+    <div class="couplets-wrapper">
+        <div class="couplet">雪洛三川凝劍氣</div>
+        <div class="couplet">塵心一洗化雲鸞</div>
     </div>
+
+    <div class="container">
+        <div class="banner-section doodle-border">
+            <img src="https://via.placeholder.com/1200x400?text=Banner+Image+Placeholder" alt="1768551946510.jpg" class="banner-img">
+        </div>
+
+        <div class="main-content">
+            
+            <aside class="left-column">
+                <img src="https://via.placeholder.com/300x300?text=Avatar+Placeholder" alt="1768404208505.jpg" class="avatar">
+                
+                <div class="bio-text">
+                    <h2 style="margin-top: 0;">[xueluochenxin]</h2>
+                    <p>[SEU2025级，努力学习ing]</p>
+                    <p>[昭昭天命 何须停火]</p>
+                </div>
+            </aside>
+
+            <main class="right-column">
+                
+                <div class="social-links">
+                    <a href="https://space.bilibili.com/180325965" class="social-item doodle-border" target="_blank">B站</a>
+                    <a href="https://www.zhihu.com/people/feidiyu" class="social-item doodle-border" target="_blank">知乎</a>
+                    <a href="https://www.xiaohongshu.com/user/profile/666ea9450000000007005fe4" class="social-item doodle-border" target="_blank">小红书</a>
+                    <a href="https://github.com/xueluochenxin" class="social-item doodle-border" target="_blank">GitHub</a>
+                </div>
+
+                <div class="placeholder-block doodle-border">
+                    <h3>正在制作中...</h3>
+                    <p>[ 这里为你后续的底层学习笔记或 C++ 游戏开发记录预留了位置 ]</p>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
 </body>
 </html>
