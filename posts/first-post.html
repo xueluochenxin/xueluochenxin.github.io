@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目前学习进度整理 - 雪洛尘心</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 全局设定与纹理承袭 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            color: #3a4a5a;
+            background-color: #f5f5f5;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            overflow-x: hidden;
+        }
+
+        /* 简笔画慢速雪花 */
+        .snow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .snowflake {
+            position: absolute;
+            color: #8fa0b0;
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 1.2rem;
+            animation: fall linear infinite;
+            opacity: 0.6;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(100vh) translateX(20px) rotate(360deg); opacity: 0; }
+        }
+
+        /* 顶部专属古风门楹 */
+        .couplets-wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 2rem;
+            color: #2c3e50;
+            letter-spacing: 2px;
+        }
+
+        /* 涂鸦边框通用手绘圆角 */
+        .doodle-border {
+            border: 2px solid #6b7c8f;
+            border-radius: 2% 95% 3% 90% / 95% 4% 92% 5%;
+            background-color: transparent;
+        }
+
+        /* 核心沉浸式阅读布局 (List Layout) */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px 20px 60px 20px;
+        }
+
+        /* 顶部导航机制 (Navigation Mechanism) */
+        .nav-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0 20px;
+            text-decoration: none;
+            color: #5a6b7a;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            border-color: #7ab8e6;
+            color: #7ab8e6;
+            box-shadow: 0 0 12px 2px rgba(122, 184, 230, 0.5), inset 0 0 6px rgba(122, 184, 230, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* 分类版块大框 */
+        .section-block {
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .section-title {
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #a0b0c0;
+            padding-bottom: 10px;
+        }
+
+        /* 便签长条卡片布局 (Card Layout) */
+        .post-card {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            text-decoration: none;
+            color: #4a5a6a;
+            background-color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+        .post-card:hover {
+            border-color: #7ab8e6;
+            color: #7ab8e6;
+            box-shadow: 0 0 12px 2px rgba(122, 184, 230, 0.4), inset 0 0 4px rgba(122, 184, 230, 0.2);
+            transform: translateX(6px); /* 悬停右移增强点击反馈 */
+        }
+        .post-label {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        /* 响应式调整 (Responsive Layout) */
+        @media (max-width: 768px) {
+            .couplets-wrapper {
+                font-size: 1.5rem;
+                padding: 10px 15px;
+            }
+            .section-block {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="snow-container" aria-hidden="true">
+        <div class="snowflake" style="left: 10%; animation-duration: 18s; animation-delay: 0s;">*</div>
+        <div class="snowflake" style="left: 30%; animation-duration: 22s; animation-delay: 4s;">*</div>
+        <div class="snowflake" style="left: 50%; animation-duration: 16s; animation-delay: 2s;">*</div>
+        <div class="snowflake" style="left: 70%; animation-duration: 25s; animation-delay: 7s;">*</div>
+        <div class="snowflake" style="left: 90%; animation-duration: 19s; animation-delay: 1s;">*</div>
+    </div>
+
+    <div class="couplets-wrapper">
+        <div class="couplet">雄關漫道真如鐵</div>
+        <div class="couplet">而今邁步從頭越</div>
+    </div>
+
+    <div class="container">
+        <div class="nav-header">
+            <a href="../index.html" class="back-btn doodle-border">返回主页</a>
+        </div>
+
+        <section class="section-block doodle-border">
+            <h2 class="section-title">C++语法</h2>
+            <a href="https://zhuanlan.zhihu.com/p/2034734407093892983" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 01] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2034666508777959884" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 02] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2028930260859725695" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 03] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2026673508059457468" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 04] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2026267895290762571" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 05] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2025910202566811993" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 06] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2025708312390373726" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 07] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2019373224446678841" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 08] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2019353847169073195" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 09] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2019359331703859103" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 10] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2018841702954222751" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 11] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2018679036193325688" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 12] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2018459619001934533" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[C++语法笔记 13] 点击填入具体文章标题...</span>
+            </a>
+        </section>
+
+        <section class="section-block doodle-border">
+            <h2 class="section-title">数据结构与算法</h2>
+            <a href="https://zhuanlan.zhihu.com/p/2018005667089233421" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 01] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2017970070760993199" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 02] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2016521796099274094" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 03] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2015882216182392178" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 04] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2015861730962589446" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 05] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2015794502758048924" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 06] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2014726780276192561" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 07] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2014708407895085114" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 08] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2013599527584695298" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 09] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2012613939133949847" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 10] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2004194264062638016" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 11] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1990057966951503245" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 12] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1989670574641918320" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[数据结构与算法 13] 点击填入具体文章标题...</span>
+            </a>
+        </section>
+
+        <section class="section-block doodle-border">
+            <h2 class="section-title">NJUOS</h2>
+            <a href="https://zhuanlan.zhihu.com/p/1989411804414239310" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 01] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1989353725442155560" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 02] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1989033589229256975" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 03] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1988943338443912293" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 04] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1988911018408157296" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 05] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1987127132980265657" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 06] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1986852025565220877" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 07] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1986816375134634948" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 08] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1986103205030037152" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 09] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1986062535397507198" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 10] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1985746904362012690" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 11] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1985671392566473773" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 12] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1984648568502519194" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[NJUOS 整理 13] 点击填入具体文章标题...</span>
+            </a>
+        </section>
+
+        <section class="section-block doodle-border">
+            <h2 class="section-title">CSAPP</h2>
+            <a href="https://zhuanlan.zhihu.com/p/1984284676664338183" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 01] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1981046596662745042" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 02] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1979986530975114072" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 03] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1979585246753219595" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 04] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1979652864520525188" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 05] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1979235761342678273" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 06] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1979145370064925460" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 07] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1977763270799672468" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 08] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1978929360003163773" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 09] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1978483489771909920" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 10] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1978194616516899517" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 11] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1977864380851962998" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 12] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/1977462821152384970" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 13] 点击填入具体文章标题...</span>
+            </a>
+            <a href="https://zhuanlan.zhihu.com/p/2035755489003135911" class="post-card doodle-border" target="_blank">
+                <span class="post-label">[CSAPP 笔记 14] 点击填入具体文章标题...</span>
+            </a>
+        </section>
+    </div>
+
+</body>
+</html>
