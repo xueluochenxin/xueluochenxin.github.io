@@ -12,9 +12,8 @@
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans SC', sans-serif;
-            color: #3a4a5a; /* 主色调：深灰蓝 */
-            background-color: #f5f5f5; /* 浅色基调 */
-            /* 纯 CSS 实现的微弱粗糙纸张噪点纹理 */
+            color: #3a4a5a;
+            background-color: #f5f5f5;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
             overflow-x: hidden;
         }
@@ -23,13 +22,13 @@
         .snow-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; /* 确保不影响鼠标点击 */
+            pointer-events: none;
             z-index: 9999;
         }
         .snowflake {
             position: absolute;
-            color: #8fa0b0; /* 灰蓝色简笔画雪花 */
-            font-family: 'Zhi Mang Xing', cursive; /* 借用毛笔字的随意感模拟涂鸦 */
+            color: #8fa0b0;
+            font-family: 'Zhi Mang Xing', cursive;
             font-size: 1.2rem;
             animation: fall linear infinite;
             opacity: 0.6;
@@ -41,7 +40,7 @@
             100% { transform: translateY(100vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
 
-        /* ================= 顶部对联 (古典门楹) ================= */
+        /* ================= 顶部对联 ================= */
         .couplets-wrapper {
             display: flex;
             justify-content: space-between;
@@ -55,7 +54,6 @@
         /* ================= 蜡笔涂鸦边框通用类 ================= */
         .doodle-border {
             border: 2px solid #6b7c8f;
-            /* 利用不对称的圆角模拟手绘的随性线条 */
             border-radius: 2% 95% 3% 90% / 95% 4% 92% 5%;
             background-color: transparent;
         }
@@ -67,19 +65,24 @@
             padding: 20px;
         }
 
-        /* 顶部横幅 (图一) */
+        /* 顶部横幅及悬停发光动效 (Hover Glow Effect) */
         .banner-section {
             width: 100%;
             margin-bottom: 40px;
             overflow: hidden;
-            padding: 4px; /* 为涂鸦边框留出空间 */
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+        .banner-section:hover {
+            border-color: #7ab8e6;
+            box-shadow: 0 0 15px 3px rgba(122, 184, 230, 0.6), inset 0 0 6px rgba(122, 184, 230, 0.3);
         }
         .banner-img {
             width: 100%;
             height: auto;
             display: block;
             object-fit: cover;
-            max-height: 400px; /* 限制最高高度 */
+            max-height: 400px;
         }
 
         /* 左右分栏布局 */
@@ -91,20 +94,26 @@
 
         /* 左侧：头像与简介 */
         .left-column {
-            flex: 0 0 300px; /* 固定左侧宽度 */
+            flex: 0 0 300px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+        /* 头像悬停发光动效 (Hover Glow Effect) */
         .avatar {
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            /* 极其柔和的照片贴纸感阴影与极细实线 */
             border: 1px solid #d0d5d9;
             box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
             background-color: #fff;
-            padding: 5px; /* 拍立得相框边缘效果 */
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+        .avatar:hover {
+            border-color: #7ab8e6;
+            box-shadow: 0 0 15px 3px rgba(122, 184, 230, 0.6);
+            transform: translateY(-2px);
         }
         .bio-text {
             font-size: 0.95rem;
@@ -138,7 +147,6 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-        /* 鼠标悬停：浅蓝色发光与边框变色 */
         .social-item:hover {
             border-color: #7ab8e6;
             color: #7ab8e6;
@@ -146,7 +154,16 @@
             transform: translateY(-2px);
         }
 
-        /* 预留展示区 (正在制作中) */
+        /* 进度整理入口按钮专属样式 */
+        .progress-btn {
+            width: auto;
+            height: 45px;
+            padding: 0 25px;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        /* 预留展示区 */
         .placeholder-block {
             padding: 30px;
             min-height: 200px;
@@ -159,20 +176,20 @@
             position: relative;
         }
         .placeholder-block h3 {
-            font-family: 'Zhi Mang Xing', cursive; /* 标题也带点狂草味 */
+            font-family: 'Zhi Mang Xing', cursive;
             font-size: 1.8rem;
             margin: 0 0 10px 0;
             color: #6b7c8f;
         }
 
-        /* ================= 移动端响应式折叠 ================= */
+        /* ================= 移动端响应式布局 (Responsive Layout) ================= */
         @media (max-width: 768px) {
             .couplets-wrapper {
                 font-size: 1.5rem;
                 padding: 10px 15px;
             }
             .main-content {
-                flex-direction: column; /* 变为上下堆叠 */
+                flex-direction: column;
             }
             .left-column {
                 flex: 1;
@@ -204,7 +221,6 @@
         </div>
 
         <div class="main-content">
-            
             <aside class="left-column">
                 <img src="1768404208505.jpg" alt="头像" class="avatar">
                 
@@ -216,7 +232,6 @@
             </aside>
 
             <main class="right-column">
-                
                 <div class="social-links">
                     <a href="https://space.bilibili.com/180325965" class="social-item doodle-border" target="_blank">B站</a>
                     <a href="https://www.zhihu.com/people/feidiyu" class="social-item doodle-border" target="_blank">知乎</a>
@@ -226,10 +241,11 @@
                 </div>
 
                 <div class="placeholder-block doodle-border">
-                    <h3>正在制作中...</h3>
+                    <a href="posts/first-post.html" class="social-item doodle-border progress-btn">目前学习进度整理</a>
+                    
+                    <h3 style="margin-top: 15px;">正在制作中...</h3>
                     <p>[ 以后会逐步完善 ]</p>  
                 </div>
-
             </main>
         </div>
     </div>
