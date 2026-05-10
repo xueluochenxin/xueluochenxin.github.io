@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>目前学习进度整理 - 雪洛尘心</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
-    
     <style>
         /* 全局设定与纹理承袭 */
         body {
@@ -70,6 +69,8 @@
             margin-bottom: 30px;
             display: flex;
             justify-content: flex-start;
+            align-items: center;
+            gap: 20px;
         }
         .back-btn {
             display: inline-flex;
@@ -88,6 +89,13 @@
             color: #7ab8e6;
             box-shadow: 0 0 12px 2px rgba(122, 184, 230, 0.5), inset 0 0 6px rgba(122, 184, 230, 0.3);
             transform: translateY(-2px);
+        }
+
+        /* 红色提示语样式 */
+        .tip-text {
+            color: red;
+            font-size: 1rem;
+            font-weight: bold;
         }
 
         /* 分类版块大框 */
@@ -121,7 +129,7 @@
             border-color: #7ab8e6;
             color: #7ab8e6;
             box-shadow: 0 0 12px 2px rgba(122, 184, 230, 0.4), inset 0 0 4px rgba(122, 184, 230, 0.2);
-            transform: translateX(6px); /* 悬停右移增强点击反馈 */
+            transform: translateX(6px);
         }
         .post-label {
             font-weight: bold;
@@ -158,6 +166,8 @@
     <div class="container">
         <div class="nav-header">
             <a href="../index.html" class="back-btn doodle-border">返回主页</a>
+            <!-- 这里加了你要的红色提示 -->
+            <span class="tip-text">目前链接和标题不对应，之后会进行更改</span>
         </div>
 
         <section class="section-block doodle-border">
