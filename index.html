@@ -154,15 +154,6 @@
             transform: translateY(-2px);
         }
 
-        /* 进度整理入口按钮专属样式 */
-        .progress-btn {
-            width: auto;
-            height: 45px;
-            padding: 0 25px;
-            margin-bottom: 15px;
-            font-size: 1.05rem;
-        }
-
         /* 预留展示区 */
         .placeholder-block {
             padding: 30px;
@@ -182,6 +173,50 @@
             color: #6b7c8f;
         }
 
+        /* ================= 留言板模块 ================= */
+        .message-board {
+            padding: 28px 30px 34px;
+            overflow: hidden;
+        }
+        .message-board h3 {
+            font-family: 'Zhi Mang Xing', cursive;
+            font-size: 1.8rem;
+            margin: 0 0 6px 0;
+            color: #6b7c8f;
+            text-align: center;
+        }
+        .board-note {
+            margin: 0 0 22px 0;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #8fa0b0;
+            text-align: center;
+        }
+        .board-hint {
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #8fa0b0;
+            letter-spacing: 1px;
+        }
+        .board-hint a {
+            color: #7ab8e6;
+            text-decoration: none;
+        }
+        .board-hint a:hover {
+            text-decoration: underline;
+        }
+        .giscus, .giscus-frame {
+            width: 100%;
+            border: none;
+        }
+
+        /* 留言板（giscus/GitHub）内置提示框柔化 */
+        .message-board iframe {
+            border: none !important;
+            width: 100% !important;
+        }
+
         /* ================= 移动端响应式布局 (Responsive Layout) ================= */
         @media (max-width: 768px) {
             .couplets-wrapper {
@@ -196,6 +231,9 @@
                 width: 100%;
                 max-width: 400px;
                 margin: 0 auto;
+            }
+            .message-board {
+                padding: 22px 14px 26px;
             }
         }
     </style>
@@ -237,15 +275,68 @@
                     <a href="https://www.zhihu.com/people/feidiyu" class="social-item doodle-border" target="_blank">知乎</a>
                     <a href="https://www.xiaohongshu.com/user/profile/666ea9450000000007005fe4" class="social-item doodle-border" target="_blank">小红书</a>
                     <a href="https://github.com/xueluochenxin" class="social-item doodle-border" target="_blank">GitHub</a>
-                    <a href="https://aisssky.github.io/test/" class="social-item doodle-border" style="width: auto; padding: 0 15px;" target="_blank">友元 Aisssky</a>
                 </div>
 
-                <div class="placeholder-block doodle-border">
-                    <a href="posts/first-post.html" class="social-item doodle-border progress-btn">目前学习进度整理</a>
-                    
-                    <h3 style="margin-top: 15px;">正在制作中...</h3>
-                    <p>[ 以后会逐步完善 ]</p>  
-                </div>
+                <!-- ================= 留言板 ================= -->
+                <section class="message-board doodle-border" id="message-board">
+                    <h3>雪泥鸿爪</h3>
+                    <p class="board-note">[ 路过请留一笔 · 用 GitHub 账号登录即可留言 ]</p>
+
+                    <div id="giscus-mount">
+                        <div class="board-hint" id="board-hint">留言区加载中……</div>
+                    </div>
+
+                    <script>
+                    (function () {
+                        var mount = document.getElementById('giscus-mount');
+                        var hinted = false;
+
+                        function loadGiscus() {
+                            if (document.querySelector('script[src="https://giscus.app/client.js"]')) return;
+                            var s = document.createElement('script');
+                            s.src = 'https://giscus.app/client.js';
+                            s.async = true;
+                            s.crossOrigin = 'anonymous';
+                            s.setAttribute('data-repo', 'xueluochenxin/xueluochenxin.github.io');
+                            s.setAttribute('data-repo-id', 'R_kgDORVfEaQ');
+                            s.setAttribute('data-category', 'Announcements');
+                            s.setAttribute('data-category-id', 'DIC_kwDORVfEac4C6F4R');
+                            s.setAttribute('data-mapping', 'specific');
+                            s.setAttribute('data-term', '雪泥鸿爪 · 留言板');
+                            s.setAttribute('data-strict', '1');
+                            s.setAttribute('data-reactions-enabled', '1');
+                            s.setAttribute('data-emit-metadata', '0');
+                            s.setAttribute('data-input-position', 'top');
+                            s.setAttribute('data-theme', 'light');
+                            s.setAttribute('data-lang', 'zh-CN');
+                            s.setAttribute('data-loading', 'lazy');
+                            mount.appendChild(s);
+                        }
+
+                        // 有 giscus 时（留空）由官方脚本自行填充，这里负责给出字体一致的加载提示
+                        setTimeout(function () {
+                            var hint = document.getElementById('board-hint');
+                            if (hint && !document.querySelector('.giscus-frame') && !hinted) {
+                                hinted = true;
+                                hint.innerHTML = '留言区暂时无法加载，请检查网络或 ' +
+                                    '<a href="https://github.com/xueluochenxin/xueluochenxin.github.io/discussions" target="_blank" rel="noopener">前往 GitHub Discussions 留言</a>。';
+                            }
+                        }, 6000);
+
+                        if ('IntersectionObserver' in window) {
+                            var io = new IntersectionObserver(function (entries) {
+                                if (entries.some(function (e) { return e.isIntersecting; })) {
+                                    io.disconnect();
+                                    loadGiscus();
+                                }
+                            }, { rootMargin: '300px 0px' });
+                            io.observe(mount);
+                        } else {
+                            loadGiscus();
+                        }
+                    })();
+                    </script>
+                </section>
             </main>
         </div>
     </div>
